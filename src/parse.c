@@ -4,7 +4,7 @@
 #include "print.h"
 #include "profile.h"
 #include "resize.h"
-
+#include "global.h"
 #include <ctype.h>
 #include <inttypes.h>
 
@@ -306,6 +306,8 @@ parse_dimacs (kissat * solver, file * file,
     return "expected new-line after parsing number of clauses";
   kissat_message (solver,
 		  "parsed 'p cnf %d %" PRIu64 "' header", variables, clauses);
+  // num_variabels = variables;
+  freq_cnt[0] = variables;
   *max_var_ptr = variables;
   kissat_reserve (solver, variables);
   uint64_t parsed = 0;

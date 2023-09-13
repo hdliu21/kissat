@@ -22,7 +22,7 @@ static void dump_binary (kissat *solver, unsigned a, unsigned b) {
   fputc ('\n', stdout);
 }
 
-static void dump_clause (kissat *solver, clause *c) {
+void dump_clause (kissat *solver, clause *c) {
   if (c->redundant)
     printf ("redundant glue %u", c->glue);
   else

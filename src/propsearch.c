@@ -3,7 +3,7 @@
 #include "fastassign.h"
 #include "print.h"
 #include "trail.h"
-
+#include "global.h"
 #define PROPAGATE_LITERAL search_propagate_literal
 #define PROPAGATION_TYPE "search"
 
@@ -14,10 +14,17 @@ update_search_propagation_statistics (kissat *solver,
                                       const unsigned *saved_propagate) {
   assert (saved_propagate <= solver->propagate);
   const unsigned propagated = solver->propagate - saved_propagate;
-
+  // printf("Propagating literals ");
+  for(unsigned int* p= saved_propagate; p != solver->propagate; ++p){
+    // printf("%d ",kissat_export_literal(solver, *p));
+    int elit = kissat_export_literal(solver, *p);
+    if(elit < 0) elit = -elit;
+    freq_cnt[elit]++;
+  } 
+  // printf("\n");
   LOG ("propagated %u literals", propagated);
   LOG ("propagation took %" PRIu64 " ticks", solver->ticks);
-
+  // printf("propagated number is %d\n", propagated);
   ADD (propagations, propagated);
   ADD (ticks, solver->ticks);
 

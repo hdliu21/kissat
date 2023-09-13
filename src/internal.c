@@ -258,7 +258,7 @@ void kissat_add (kissat *solver, int elit) {
       PUSH_STACK (solver->original, elit);
 #endif
     unsigned ilit = kissat_import_literal (solver, elit);
-
+    // printf("elit is %d, lit is %d\n", elit, ilit);
     const mark mark = MARK (ilit);
     if (!mark) {
       const value value = kissat_fixed (solver, ilit);

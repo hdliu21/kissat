@@ -8,5 +8,7 @@ tissat
 *.gcno
 *.gcda
 *.gcov
+*.cnf
+logs
 gmon.out
 *~

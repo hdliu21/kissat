@@ -15,6 +15,7 @@
 #include "terminate.h"
 #include "trail.h"
 #include "walk.h"
+#include "global.h"
 
 #include <inttypes.h>
 
@@ -169,5 +170,25 @@ int kissat_search (kissat *solver) {
       kissat_decide (solver);
   }
   stop_search (solver, res);
+  // for(int i = 0; i < num_variabels; ++i){
+  //   printf("variable %d: freq_cnt = %d\n", i+1, freq_cnt[i]);
+  // }
+  int num_variables = freq_cnt[0];
+  printf("number of variables is %d\n", num_variables);
+  int freq_sum = 0;
+  for(int i = 1; i <= num_variables; ++i)
+  {
+    freq_sum += freq_cnt[i];
+    // printf("variable %d: freq_cnt = %d\n", i+1, freq_cnt[i]);
+  }
+  printf("freq_sum is %d\n", freq_sum);
+  for(int i = 1; i <= num_variables; ++i)
+  {
+    printf("%d,", freq_cnt[i]);
+  }
+  printf("\n");
+  // for(int i = 0; i < 320; ++i){
+  //   printf("variable %d, variable frequency %.3f\n", i+1, freq_cnt[i]/(float)(freq_sum));
+  // }
   return res;
 }

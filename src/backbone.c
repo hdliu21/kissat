@@ -12,6 +12,7 @@
 #include "terminate.h"
 #include "trail.h"
 #include "utilities.h"
+#include "global.h"
 
 static void schedule_backbone_candidates (kissat *solver,
                                           unsigneds *candidates) {
@@ -221,8 +222,16 @@ static inline clause *backbone_propagate (kissat *solver,
 
   assert (solver->propagate <= propagate);
   const unsigned propagated = propagate - solver->propagate;
+  // printf("Propagating literals ");
+  for(unsigned int* p= solver->propagate; p != propagate; ++p){
+    int elit = kissat_export_literal(solver, *p);
+    if(elit < 0) elit = -elit;
+    freq_cnt[elit]++;
+    // printf("%d ",kissat_export_literal(solver, *p));
+  } 
+  // printf("\n");
+  // printf("propagated number is %d\n", propagated);
   solver->propagate = propagate;
-
   ADD (backbone_propagations, propagated);
   ADD (probing_propagations, propagated);
   ADD (propagations, propagated);

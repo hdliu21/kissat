@@ -1,6 +1,7 @@
 #include "propbeyond.h"
 #include "fastassign.h"
 #include "trail.h"
+#include "global.h"
 
 #define PROPAGATE_LITERAL propagate_literal_beyond_conflicts
 #define CONTINUE_PROPAGATING_AFTER_CONFLICT
@@ -14,6 +15,15 @@ update_beyond_propagation_statistics (kissat *solver,
   assert (saved_propagate <= solver->propagate);
   const unsigned propagated = solver->propagate - saved_propagate;
 
+  // printf("Propagating literals ");
+  for(unsigned int* p= saved_propagate; p != solver->propagate; ++p){
+    // printf("%d ",kissat_export_literal(solver, *p));
+    int elit = kissat_export_literal(solver, *p);
+    if(elit < 0) elit = -elit;
+    freq_cnt[elit]++;
+  } 
+  // printf("\n");
+  // printf("propagated number is %d\n", propagated);
   LOG ("propagated %u literals", propagated);
   LOG ("propagation took %" PRIu64 " ticks", solver->ticks);
 

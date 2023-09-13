@@ -1,5 +1,6 @@
 #include "propdense.h"
 #include "fastassign.h"
+#include "global.h"
 
 static inline bool non_watching_propagate_literal (kissat *solver,
                                                    unsigned lit) {
@@ -89,6 +90,15 @@ bool kissat_dense_propagate (kissat *solver) {
   while (res && propagate != END_ARRAY (solver->trail))
     res = non_watching_propagate_literal (solver, *propagate++);
   const unsigned propagated = propagate - solver->propagate;
+  // printf("Propagating literals ");
+  for(unsigned int* p= solver->propagate; p != propagate; ++p){
+    // printf("%d ",kissat_export_literal(solver, *p));
+    int elit = kissat_export_literal(solver, *p);
+    if(elit < 0) elit = -elit;
+    freq_cnt[elit]++;
+  } 
+  // printf("\n");
+  // printf("propagated number is %d\n", propagated);
   solver->propagate = propagate;
   ADD (dense_propagations, propagated);
   ADD (propagations, propagated);

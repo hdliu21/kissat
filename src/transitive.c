@@ -11,7 +11,7 @@
 #include "sort.h"
 #include "terminate.h"
 #include "trail.h"
-
+#include "global.h"
 #include <stddef.h>
 
 static void transitive_assign (kissat *solver, unsigned lit) {
@@ -151,10 +151,18 @@ static bool transitive_reduce (kissat *solver, unsigned src, uint64_t limit,
 
     assert (solver->propagate <= propagate);
     const unsigned propagated = propagate - solver->propagate;
-
+    // printf("Propagating literals ");
+    for(unsigned int* p= solver->propagate; p != propagate; ++p){
+      // printf("%d ",kissat_export_literal(solver, *p));
+      int elit = kissat_export_literal(solver, *p);
+      if(elit < 0) elit = -elit;
+      freq_cnt[elit]++;
+    } 
+    // printf("\n");
     ADD (transitive_propagations, propagated);
     ADD (probing_propagations, propagated);
     ADD (propagations, propagated);
+    // printf("propagated number is %d\n", propagated);
 
     ADD (transitive_ticks, inner_ticks);
     ADD (probing_ticks, inner_ticks);

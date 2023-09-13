@@ -38,6 +38,7 @@ static inline clause *PROPAGATE_LITERAL (kissat *solver,
                                          const unsigned lit) {
   assert (solver->watching);
   LOG (PROPAGATION_TYPE " propagating %s", LOGLIT (lit));
+  // printf("currently propogating %d\n",kissat_export_literal(solver, lit));
   assert (VALUE (lit) > 0);
   assert (EMPTY_STACK (solver->delayed));
 
